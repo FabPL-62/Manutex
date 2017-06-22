@@ -5,8 +5,8 @@
 **********************************************************************************/
 
 define("DB_HOST",$_SERVER["HTTP_HOST"]);
-define("DB_USER","fabian");
-define("DB_PASS","YmmaFPA62");
+define("DB_USER","root");
+define("DB_PASS","");
 define("DB_NAME","bdmanutex");
 
 define("URL","http://".DB_HOST."/Manutex/");
