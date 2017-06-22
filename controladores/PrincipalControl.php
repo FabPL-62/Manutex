@@ -6,7 +6,7 @@ class PrincipalControl extends Controlador {
     }
 
     function salir() {
-    	if (Controlador::input("login_rut")) {
+    	if ($this->input("login_rut")) {
 
     		// se obtiene el rut
     		$rut = explode("-",$_POST["login_rut"])[0];
@@ -26,7 +26,7 @@ class PrincipalControl extends Controlador {
     function cargar($vista)
     {
         // para cargar, debe haber una llave
-        if (Controlador::input())
+        if ($this->input())
         {
             // obtenemos el archivo de la vista
             $path = "./vistas/".$vista."/index.php";
@@ -34,7 +34,7 @@ class PrincipalControl extends Controlador {
             // la vista debe existir
             if (file_exists($path))
             {
-                if (Controlador::input())
+                if ($this->input())
                 {
                     // agregamos estas dos lineas
                     echo "<script src='".DATERANGEPICKER."'></script>\n";
@@ -52,7 +52,7 @@ class PrincipalControl extends Controlador {
     // para respaldar la base de datos
     function respaldar()
     {
-        if (Controlador::input("respaldar"))
+        if ($this->input("respaldar"))
         {
             $backup_file = "C:/xampp/backups/manutex-".date("Y-m-d-H-i-s").".sql";
 

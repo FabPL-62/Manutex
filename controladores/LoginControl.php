@@ -10,7 +10,7 @@ class LoginControl extends Controlador {
     // el login tiene un solo metodo, para saber si el login esta correcto        
     function login() 
     {
-        if (Controlador::input("login_rut","login_pass"))
+        if ($this->input("login_rut","login_pass"))
         {
             // obtenemos las entradas
             $rut = $_POST["login_rut"];
@@ -33,14 +33,14 @@ class LoginControl extends Controlador {
                         if (is_array($resultado)) {
                             Sesion::set_value("U_NAME",$rut);
                             Sesion::set_value("ID",$rut);
-                            Controlador::success($resultado);
+                            $this->success($resultado);
                         }
                     }
-                    else Controlador::error("Usuario y/o Contraseña erronea");
+                    else $this->error("Usuario y/o Contraseña erronea");
                 }
-                else Controlador::error("ingrese contraseña");
+                else $this->error("ingrese contraseña");
             } 
-            else Controlador::error($rut);
+            else $this->error($rut);
         }       
     }
 }

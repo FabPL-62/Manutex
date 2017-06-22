@@ -9,7 +9,7 @@ class SociaControl extends Controlador {
     // listar todas las socias segun el permiso del usuario
     function listar()
     {
-        if (Controlador::input("permiso","estado"))
+        if ($this->input("permiso","estado"))
         {
             // obtenemos el permiso
             $permiso = intval($_POST["permiso"]);
@@ -25,7 +25,7 @@ class SociaControl extends Controlador {
     // agregar una nueva socia
     function agregar()
     {
-        if (Controlador::input(
+        if ($this->input(
             "socia_rut",
             "socia_nombre",
             "socia_paterno",
@@ -56,9 +56,9 @@ class SociaControl extends Controlador {
                 ]));
                 if ($resultado !== null) {
                     if ($resultado == true) {
-                        Controlador::success("La socia se ingresó exitosamente en el sistema");
+                        $this->success("La socia se ingresó exitosamente en el sistema");
                     } else {
-                        Controlador::error("La socia no se pudo ingresar al sistema");
+                        $this->error("La socia no se pudo ingresar al sistema");
                     }
                 } else {
                     // si la socia ha sido eliminada
@@ -76,17 +76,17 @@ class SociaControl extends Controlador {
                             orm::socia_estado => 1
                         ]));
                         if ($resultado == true) {
-                            Controlador::success("La socia antigua se agregó exitosamente al sistema");
+                            $this->success("La socia antigua se agregó exitosamente al sistema");
                         } else {
-                            Controlador::error("La socia no se pudo ingresar al sistema");
+                            $this->error("La socia no se pudo ingresar al sistema");
                         }
                     } else {
-                        Controlador::error("No puede agregar una socia que ya existe");
+                        $this->error("No puede agregar una socia que ya existe");
                     }
                 }
             } else {
                 // sino se muestran errores de verificacion del rut //
-                Controlador::error($rut);
+                $this->error($rut);
             }
         }
     }
@@ -94,7 +94,7 @@ class SociaControl extends Controlador {
     // modificar una socia
     function modificar()
     {
-        if (Controlador::input(
+        if ($this->input(
             "socia_rut",
             "socia_nombre",
             "socia_paterno",
@@ -123,9 +123,9 @@ class SociaControl extends Controlador {
 
             // verificamos el resultado
             if ($resultado == true) {
-                Controlador::success("La socia ha sido modificada exitosamente");
+                $this->success("La socia ha sido modificada exitosamente");
             } else {
-                Controlador::error("La socia no se pudo modificar en el sistema");
+                $this->error("La socia no se pudo modificar en el sistema");
             }
         }
     }
@@ -133,7 +133,7 @@ class SociaControl extends Controlador {
     // eliminar logicamente a una socia
     function eliminar_logicamente()
     {
-        if (Controlador::input("socia_rut","usuario_rut","fecha_elim"))
+        if ($this->input("socia_rut","usuario_rut","fecha_elim"))
         {
             // separamos el rut por su digito verificador
             $rut_socia = explode("-",$_POST["socia_rut"])[0];
@@ -147,11 +147,11 @@ class SociaControl extends Controlador {
                 $resultado = $this->modelo->eliminar_logicamente($rut_socia,$fecha_elim);
 
                 // si el resultado es true
-                if ($resultado == true) Controlador::success("La socia se eliminó exitosamente en el sistema");
-                else Controlador::error("No se pudo eliminar la socia");
+                if ($resultado == true) $this->success("La socia se eliminó exitosamente en el sistema");
+                else $this->error("No se pudo eliminar la socia");
             }
             else {
-                Controlador::error("El rut se esta usando actualmente");
+                $this->error("El rut se esta usando actualmente");
             }
         }
     }
@@ -159,7 +159,7 @@ class SociaControl extends Controlador {
     // eliminar a una socia
     function eliminar()
     {
-        if (Controlador::input("socia_rut","usuario_rut"))
+        if ($this->input("socia_rut","usuario_rut"))
         {
             // separamos el rut por su digito verificador
             $rut_socia = explode("-",$_POST["socia_rut"])[0];
@@ -210,17 +210,17 @@ class SociaControl extends Controlador {
                         }
                         echo json_encode([2,$resultado]);
                     } else {
-                        if ($resultado == true) Controlador::success("La socia se eliminó exitosamente en el sistema");
-                        else Controlador::error("La socia no se pudo eliminar");
+                        if ($resultado == true) $this->success("La socia se eliminó exitosamente en el sistema");
+                        else $this->error("La socia no se pudo eliminar");
                     }
-                } else Controlador::error("No puede eliminar a una socia de mayor rango");
-            } else Controlador::error("Usted no se puede eliminar a si misma");
+                } else $this->error("No puede eliminar a una socia de mayor rango");
+            } else $this->error("Usted no se puede eliminar a si misma");
         }
     }
 
     // obtener el perfil de la socia
     function obtener_perfil() {
-        if (Controlador::input("login_rut")) {
+        if ($this->input("login_rut")) {
             $rut = explode("-",$_POST["login_rut"])[0];
             echo $this->modelo->obtener_perfil($rut);
         }
@@ -228,7 +228,7 @@ class SociaControl extends Controlador {
 
     // obtener el nombre de la socia
     function obtener_nombre() {
-        if (Controlador::input("login_rut")) {
+        if ($this->input("login_rut")) {
             $rut = explode("-",$_POST["login_rut"])[0];
             echo $this->modelo->obtener_nombre($rut);
         }
@@ -237,7 +237,7 @@ class SociaControl extends Controlador {
     // modificar solo el perfil de una sola socia
     function modificar_perfil()
     {
-        if (Controlador::input(
+        if ($this->input(
             "socia_rut",
             "socia_fono",
             "socia_direccion",
@@ -260,8 +260,8 @@ class SociaControl extends Controlador {
 
             // llamamos la funcion del modelo
             $resultado = $this->modelo->modificar($socia);
-            if ($resultado == true) Controlador::success("Sus datos han sido actualizados exitosamente");
-            else Controlador::error("Sus datos no han sido modificados");
+            if ($resultado == true) $this->success("Sus datos han sido actualizados exitosamente");
+            else $this->error("Sus datos no han sido modificados");
         }
     }
 
@@ -270,7 +270,7 @@ class SociaControl extends Controlador {
     // Admin -> Presidenta -> {Secretaria, Tesorera, Socia}
     function lista_permisos() 
     {
-        if (Controlador::input("usuario_permiso"))
+        if ($this->input("usuario_permiso"))
         {
             $permiso = intval($_POST["usuario_permiso"]);
             echo $this->modelo->lista_permisos($permiso);
@@ -280,7 +280,7 @@ class SociaControl extends Controlador {
     // gestionar los permisos
     function gestionar_permisos()
     {
-        if (Controlador::input("tabla_permisos"))
+        if ($this->input("tabla_permisos"))
         {
             // decodificamos la tabla de permisos
             $tabla = json_decode($_POST["tabla_permisos"]);
@@ -292,14 +292,14 @@ class SociaControl extends Controlador {
 
     // consultar datos basicos de las socias
     function lista_consultar(){
-        if (Controlador::input()) {
+        if ($this->input()) {
             echo $this->modelo->lista_consulta();
         }
     }
 
     // consultar datos basicos de las socias
     function lista_consultar2(){
-        if (Controlador::input("rut")) {
+        if ($this->input("rut")) {
             $rut = explode("-",$_POST["rut"])[0];
             echo $this->modelo->lista_consulta2($rut);
         }

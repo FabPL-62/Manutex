@@ -7,7 +7,7 @@ class MaquinaControl extends Controlador {
     
     // listar maquinas
     function listar() {
-        if (Controlador::input()) {
+        if ($this->input()) {
             echo $this->modelo->listar();
         }
     }
@@ -15,7 +15,7 @@ class MaquinaControl extends Controlador {
     // agregar maquina
     function agregar()
     {
-        if (Controlador::input(
+        if ($this->input(
             "maq_tipo",
             "maq_modelo",
             "maq_estado",
@@ -36,9 +36,9 @@ class MaquinaControl extends Controlador {
 
             // el resultado puede ser 1 o 0
             if ($resultado == true) {
-                Controlador::success("La máquina se ingreso exitosamente en el sistema");
+                $this->success("La máquina se ingreso exitosamente en el sistema");
             } else {
-                Controlador::error("Error al ingresar máquina");
+                $this->error("Error al ingresar máquina");
             }
         }
     }
@@ -46,7 +46,7 @@ class MaquinaControl extends Controlador {
     // modificar maquina
     function modificar()
     {
-        if (Controlador::input(
+        if ($this->input(
             "maq_tipo",
             "maq_modelo",
             "maq_estado",
@@ -67,9 +67,9 @@ class MaquinaControl extends Controlador {
 
             // el resultado puede ser 1 o 0
             if ($resultado == true) {
-                Controlador::success("La máquina se modificó exitosamente en el sistema");
+                $this->success("La máquina se modificó exitosamente en el sistema");
             } else {
-                Controlador::error("Error al modificar máquina");
+                $this->error("Error al modificar máquina");
             }
         }
     }
@@ -77,19 +77,19 @@ class MaquinaControl extends Controlador {
     // eliminar maquina
     function eliminar()
     {
-        if (Controlador::input("maq_tipo","maq_num"))
+        if ($this->input("maq_tipo","maq_num"))
         {
             $resultado = $this->modelo->eliminar(orm::maquina([
                 orm::maquina_codigo => $_POST["maq_tipo"],
                 orm::maquina_numero => $_POST["maq_num"]
             ]));
             if (is_array($resultado)) {
-                Controlador::error("La máquina que desea eliminar posee solicitudes asociadas, no se puede eliminar");
+                $this->error("La máquina que desea eliminar posee solicitudes asociadas, no se puede eliminar");
             } else {
                 if ($resultado == true) {
-                    Controlador::success();
+                    $this->success();
                 } else {
-                    Controlador::error("La máquina no se pudo eliminar");
+                    $this->error("La máquina no se pudo eliminar");
                 }
             }
         }
@@ -97,14 +97,14 @@ class MaquinaControl extends Controlador {
 
     // consultar por todas las maquinas disponibles
     function consultar_maquinas() {
-        if (Controlador::input("fecha_solicitud")) {
+        if ($this->input("fecha_solicitud")) {
             echo $this->modelo->consultar_maquinas();
         }
     }
 
     // consultar por todas las solicitudes de una socia
     function consultar_solicitudes() {
-        if (Controlador::input("rut")) {
+        if ($this->input("rut")) {
             $rut = explode("-",$_POST["rut"])[0];
             echo $this->modelo->consultar_solicitudes($rut);
         }
@@ -113,7 +113,7 @@ class MaquinaControl extends Controlador {
     // agregar una solicitud de maquina
     function agregar_solicitud() 
     {
-        if (Controlador::input("sol_rut","sol_cod","sol_fecha")) 
+        if ($this->input("sol_rut","sol_cod","sol_fecha")) 
         {
             $resultado = $this->modelo->agregar_solicitud(orm::solicitud_maquina([
                 orm::solicitud_maquina_rut => $_POST["sol_rut"],
@@ -122,10 +122,10 @@ class MaquinaControl extends Controlador {
             ]));
             if ($resultado != null) {
                 if (is_array($resultado)) {
-                    Controlador::success($resultado);
+                    $this->success($resultado);
                 }
             } else {
-                Controlador::error("No se pudo solicitar la maquina");
+                $this->error("No se pudo solicitar la maquina");
             }
         }
     }
@@ -133,7 +133,7 @@ class MaquinaControl extends Controlador {
     // eliminar una solicitud de maquina
     function eliminar_solicitud() 
     {
-        if (Controlador::input(
+        if ($this->input(
             "sol_rut",
             "sol_cod",
             "sol_num",
@@ -150,23 +150,23 @@ class MaquinaControl extends Controlador {
 
             // el resultado puede ser 1 o 0
             if ($resultado == true) {
-                Controlador::success("La eliminación de la solicitud ha sido exitosa");
+                $this->success("La eliminación de la solicitud ha sido exitosa");
             } else {
-                Controlador::error("Error al eliminar solicitud de máquina");
+                $this->error("Error al eliminar solicitud de máquina");
             }
         }
     }
 
     // listar para aceptar solicitudes
     function listar_aceptar() {
-        if (Controlador::input()) {
+        if ($this->input()) {
             echo $this->modelo->listar_aceptar();
         }
     }
 
     // modificar estado de las solicitudes
     function modificar_aceptar() {
-        if (Controlador::input("json")) {
+        if ($this->input("json")) {
             $tabla = json_decode($_POST["json"]);
             echo $this->modelo->modificar_aceptar($tabla);
         }
